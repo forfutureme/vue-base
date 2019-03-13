@@ -1,0 +1,17 @@
+@import "_center.styl"
+_close() {
+  position absolute
+  right 30px
+  top 50%
+  transform translateY(-50%)
+  width 60px
+  height 60px
+  &::after {
+    content ''
+    position absolute
+    _center()
+    width 27px
+    height 27px
+    background url("../../assets/images/common/close.png") no-repeat center / contain
+  }
+}

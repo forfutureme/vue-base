@@ -1,0 +1,18 @@
+@import "_center.styl"
+_back(l=10px, t=10px){
+  position absolute
+  left l
+  top l
+  display inline-block
+  width 60px
+  height 60px
+  &::after {
+    content ''
+    position absolute
+    _center()
+    z-index 2
+    width 18px
+    height 32px
+    background url("../assets/images/common/go_back_gray.png") no-repeat center / contain
+  }
+}

@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  vertical-align: baseline;
+  background: transparent;
+  box-sizing: border-box;
+  &::-webkit-scrollbar{width:0}
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+img, input {
+  border 0
+}
+html {
+  -ms-touch-action: none;
+}
+html, body {
+  width 100%
+  font-family Adobe Heiti Std
+}
+
+// 路由切换渐隐动画
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */
+{
+  opacity: 0
+}
+
+// 路由切换 离开动画
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+  transition: all .1s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+/* .slide-fade-leave-active for below version 2.1.8 */
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0.5;
+}
+  //路由切换动画 晃动
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

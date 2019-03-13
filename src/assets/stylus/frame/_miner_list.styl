@@ -1,0 +1,159 @@
+@import "../minixs/_flex_box.styl"
+@import "../minixs/_ellipsis_word.styl"
+.miner-list-ul{
+  width 100%
+  display flex
+  flex-wrap wrap
+  padding 30px
+  .miner-list-li{
+    display flex
+    flex-wrap wrap
+    width 100%
+    margin-bottom 30px
+    background rgba(255,255,255,1)
+    border-radius 15px
+    box-shadow 4px 0 30px rgba(0,0,0,0.3)
+    .miner,
+    .free,
+    .position{
+      display flex
+      width 100%
+    }
+    .position{
+      height 60px
+      line-height 60px
+      padding-left 30px
+      border-top 1px solid rgba(0, 0, 0, .2)
+      font-size 22px
+      color #585858
+    }
+    .miner {
+      position relative
+      padding 35px 30px
+      .img{
+        width 130px
+        height 130px
+        border-radius 50%
+      }
+      .info{
+        padding-left 40px
+        .info-h5 {
+          color #333
+          font-size 26px
+          _flex_box()
+          flex-wrap nowrap
+          .flag{
+            display inline-block
+            min-height 26px
+            line-height 26px
+            padding 10px 15px
+            font-style: normal
+            font-size 16px
+            background #F23249
+            border-radius 6px
+            color #fff
+            font-weight normal
+            margin-right 15px
+            &.mining{
+              background #FFAD0F
+            }
+          }
+          .name {
+            max-width 200px
+            display inline-block
+            _ellipsis_word()
+          }
+        }
+        .text{
+          font-size 22px
+          padding 10px 0  5px 35px
+          position relative
+          color #666
+          &::after{
+            position absolute
+            left 0
+            top 50%
+            transform translateY(-50%)
+            content ''
+            background url("../../assets/images/common/price.png") no-repeat center / contain
+          }
+          &.price{
+            &::after{
+              width 24px
+              height 24px
+            }
+          }
+          &.speed{
+            &::after{
+              width 20px
+              height 20px
+              background-image url("../../assets/images/common/speed.png")
+            }
+          }
+        }
+      }
+      .operate {
+        position absolute
+        right 30px
+        top 50%
+        transform translateY(-50%)
+        background rgba(242,50,73,1)
+        border-radius 25px
+        width 120px
+        height 50px
+        _flex_box()
+        font-size 24px
+        color #fff
+        &.replace{
+          background transparent
+          border 2px solid #0048FF
+          color #0048FF
+          &.none{
+            opacity .5
+            color rgba(0,72,255,1)
+          }
+        }
+        &.back{
+          background transparent
+          border 2px solid #F23249
+          color #F23249
+        }
+      }
+    }
+    .free{
+      padding 48px 30px 48px 60px
+      display flex
+      justify-content space-between
+      align-items center
+      .tips{
+        display inline-block
+        padding-left 45px
+        color #333
+        font-size 26px
+        position relative
+        &::after{
+          position: absolute
+          content ''
+          width 32px
+          height 32px
+          background url("../../assets/images/common/rectruit.png") no-repeat center /contain
+          left 0
+          top 50%
+          transform translateY(-50%)
+        }
+      }
+      .find{
+        display inline-block
+        width 120px
+        height 50px
+        line-height 50px
+        background #0447F4
+        background-image linear-gradient(left, #5E8BFF 0, #0447F4 100%)
+        border-radius 25px
+        font-size 24px
+        color #fff
+        text-align center
+      }
+    }
+  }
+}
