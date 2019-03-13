@@ -1,8 +1,8 @@
-## XXX 项目使用文档
+## 项目使用文档
 
 ### 技术栈简介
 
- * 该项目技术栈为Vue+Vuex，
+ * 该项目技术栈为Vue(V2.5.16)+Vuex，
  * 构建工具为Webpack4.x
 
 #### 关于JavaScript
@@ -56,12 +56,11 @@
  * `webpack.test.config.js` 测试环境配置
  * `webpack.pro.config.js` 生产环境配置
  
-### 启动活着构建项目
+### 启动或者构建项目
  * 在根目录下执行 `yarn install` 为什么不用 `npm i` 或者 `cnpm i` (c)npm的坑谁用谁知道，本项目用 `cnpm i` 能跑，用 `npm i` 绝对会报错，为避免尴尬请用 `yarn`安装依赖
  * 开发环境执行 `npm run dev` 成功后 浏览器打开 `http://127.0.0.1:9981`
  * 测试环境执行 `npm run test` 成功后 查看 `./test`目录下文件，-!!!注意!!!-，执行前请先确保测试环境配置以配置正确，
- 修改`webpack.test.config.js`里 1) `18`行`publicPath`字段改为测试环境域名路径，`js,css`引用皆依赖这里的绝对路径，
- 2) `34`行HOST字段修改为测试环境接口请求的域名
+ 修改`webpack.test.config.js`里 1) `18`行`publicPath`字段改为测试环境域名路径，`js,css`引用皆依赖这里的绝对路径，2) `34`行HOST字段修改为测试环境接口请求的域名
+ 
  * 测试环境执行 `npm run pro` 成功后 查看 `./dist`目录下文件，-!!!注意!!!-，执行前请先确保生产环境配置以配置正确，
- 修改`webpack.test.config.js`里 1) `17`行`publicPath`字段改为测试环境域名路径，`js,css`引用皆依赖这里的绝对路径，
- 2) `33`行`HOST`字段修改为测试环境接口请求的域名
+ 修改`webpack.test.config.js`里 1) `17`行`publicPath`字段改为测试环境域名路径，`js,css`引用皆依赖这里的绝对路径，2) `33`行`HOST`字段修改为测试环境接口请求的域名
