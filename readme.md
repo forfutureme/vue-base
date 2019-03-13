@@ -6,6 +6,7 @@
  * 构建工具为Webpack4.x
 
 #### 关于JavaScript
+ * JavaScript语法检查默认使用`standard`规范
  * JavaScript解释器为babel，默认引入babel-polyfill，兼容某些浏览器，若不需要可自行删除
  * 最大程度解释最新语法即stage-0，所有同步操作均为async-await方式，Promise自行封装 
  * 所有项目用到的工具类方法统一提取放到 `./src/tools` 目录下，可根据功能创建对应文件归类
