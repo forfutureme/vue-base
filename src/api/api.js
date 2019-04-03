@@ -3,7 +3,7 @@
  * @title 所有接口集合统一输出
  */
 
-import user from './demo'
+import demo from './demo'
 
 export default {
   demo
