@@ -10,7 +10,7 @@ import axios from 'axios'
 
 import store from '../store/index'
 import * as types from '../store/mutation-types'
-import { createSign, paramsToStr} from 'tools/utils'
+import { base, signFlag } from '../tools/utils/index'
 import method from '@/tools/method'
 
 /**
@@ -29,7 +29,8 @@ export async function toAxios (path, params = {}, config = { shadow: true, metho
     // 调用接口 前开启遮罩和loading
     if (config.shadow) {
     }
-    // let signInfo = token ? createSign(token) : {}
+    
+    // let signInfo = token ? signFlag.createSign(token) : {}
     // 调用axios方法发送请求
     let r = await axios({
       method: 'get',
@@ -65,7 +66,7 @@ export async function getAxios (path, params = {}, config = {shadow: true}) {
     // 调用接口 前开启遮罩和loading
     if (config.shadow) {
     }
-    let r = await axios.get(`${url}${paramsToStr(params)}`)
+    let r = await axios.get(`${url}${base.paramsToStr(params)}`)
     return result(r)
   } catch (e) {
     console.error(e)
