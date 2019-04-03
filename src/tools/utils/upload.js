@@ -2,7 +2,7 @@
  * @Author: Firmiana 
  * @Date: 2019-04-03 16:09:34 
  * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 17:30:03
+ * @Last Modified time: 2019-04-03 18:18:40
  * @Desc: 文件传输相关方法 
  */
 
@@ -16,7 +16,7 @@
  * @param progress
  * @returns {Promise<*>}
  */
-export async function tencentCloud({ companyId, cardId, folder, files, suffix, progress }) {
+export default async function tencentCloud({ companyId, cardId, folder, files, suffix, progress }) {
   return new Promise((resolve, reject) => {
     let cos = new COS({
       getAuthorization: function (options, callback) {
