@@ -2,7 +2,7 @@
  * Created by huweijian on 2018/3/20.
  * @title 一些公共方法的集合，以插件的形式，混入到Vue中，免得每每引入，并以call(this)的形式调用
  */
-import { imgTozSize, dateToDataObj } from './utils'
+import { date, tableau } from './utils/index'
 function bodyScroll (e) {
   e.preventDefault()
 }
@@ -25,7 +25,7 @@ export default {
          * @returns {*|void|string}
          */
         $_JTGetImgTo132 (str = '') {
-          return imgTozSize(str)
+          return tableau.imgTozSize(str)
         },
         /**
          * 返回年月日时间
@@ -33,12 +33,12 @@ export default {
          * @returns {string} yyyy-mm-dd
          */
         $_JTGetYMD (time) {
-          return dateToDataObj(time).ymd
+          return date.dateToDataObj(time).ymd
         }
       },
       methods: {
         $_JTImgTo132 (str = '') {
-          return imgTozSize(str)
+          return tableau.imgTozSize(str)
         },
         /**
          * 返回上一路由
