@@ -2,7 +2,7 @@
  * @Author: Firmiana 
  * @Date: 2019-04-03 11:18:19 
  * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 18:26:00
+ * @Last Modified time: 2019-04-03 18:39:41
  * @Desc: 基础方法/未分类方法 
  */
 
@@ -217,4 +217,23 @@ export function param2Obj(url) {
       .replace(/=/g, '":"') +
     '"}'
   )
+}
+
+/**
+ * url操作/转换
+ * @param {*} url 
+ */
+export function getQueryObject(url) {
+  url = url == null ? window.location.href : url
+  const search = url.substring(url.lastIndexOf('?') + 1)
+  const obj = {}
+  const reg = /([^?&=]+)=([^?&=]*)/g
+  search.replace(reg, (rs, $1, $2) => {
+    const name = decodeURIComponent($1)
+    let val = decodeURIComponent($2)
+    val = String(val)
+    obj[name] = val
+    return rs
+  })
+  return obj
 }

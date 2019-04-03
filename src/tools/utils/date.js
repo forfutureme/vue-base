@@ -2,7 +2,7 @@
  * @Author: Firmiana 
  * @Date: 2019-04-03 15:47:32 
  * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 18:03:04
+ * @Last Modified time: 2019-04-03 18:39:12
  * @Desc: 时间类处理方法 
  */
 import { zeroFill } from './base'
@@ -156,25 +156,6 @@ export function parseTime(time, cFormat) {
     return value || 0
   })
   return time_str
-}
-
-/**
- * 格式化时间
- * @param {*} url 
- */
-export function getQueryObject(url) {
-  url = url == null ? window.location.href : url
-  const search = url.substring(url.lastIndexOf('?') + 1)
-  const obj = {}
-  const reg = /([^?&=]+)=([^?&=]*)/g
-  search.replace(reg, (rs, $1, $2) => {
-    const name = decodeURIComponent($1)
-    let val = decodeURIComponent($2)
-    val = String(val)
-    obj[name] = val
-    return rs
-  })
-  return obj
 }
 
 /**
