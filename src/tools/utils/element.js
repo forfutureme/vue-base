@@ -2,7 +2,7 @@
  * @Author: Firmiana 
  * @Date: 2019-04-03 11:29:45 
  * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 16:00:40
+ * @Last Modified time: 2019-04-03 17:44:20
  * @Desc: 元素属性操作相关方放 
  */
 import store from 'store/index'
@@ -98,4 +98,14 @@ export function layerNotice(o = {}) {
     text: '',
     ...o
   })
+}
+
+/**
+ * html --> text
+ * @param {*} val 
+ */
+export function html2Text(val) {
+  const div = document.createElement('div')
+  div.innerHTML = val
+  return div.textContent || div.innerText
 }

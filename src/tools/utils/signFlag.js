@@ -2,7 +2,7 @@
  * @Author: Firmiana 
  * @Date: 2019-04-03 11:40:22 
  * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 11:43:59
+ * @Last Modified time: 2019-04-03 17:11:19
  * @Desc: 签名加密方法 
  */
 
@@ -30,4 +30,13 @@ export function createSign(token) {
     timestamp,
     sign: sign(timestamp, token)
   }
+}
+
+/**
+ * 生成唯一标识
+ */
+export default function createUniqueString() {
+  const timestamp = +new Date() + ''
+  const randomNum = parseInt((1 + Math.random()) * 65536) + ''
+  return (+(randomNum + timestamp)).toString(32)
 }
