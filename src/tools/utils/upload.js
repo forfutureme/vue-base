@@ -2,42 +2,9 @@
  * @Author: Firmiana 
  * @Date: 2019-04-03 16:09:34 
  * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 16:38:46
+ * @Last Modified time: 2019-04-03 18:18:40
  * @Desc: 文件传输相关方法 
  */
-
-/**
-* 转读取本地文件为同步
-* @param file
-* @returns {Promise<*>}
-*/
-export async function readFile(file) {
-  reader.readAsDataURL(file)
-  return new Promise((resolve, reject) => {
-    reader.onload = () => {
-      resolve(reader.result)
-    }
-  })
-}
-
-/**
- * 转base64文件为file
- * @param dataurl
- * @param filename
- * @returns {File}
- */
-export function dataURLtoFile(dataurl, filename = 'file') {
-  let arr = dataurl.split(',')
-  let mime = arr[0].match(/:(.*?);/)[1]
-  let suffix = mime.split('/')[1]
-  let bstr = atob(arr[1])
-  let n = bstr.length
-  let u8arr = new Uint8Array(n)
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n)
-  }
-  return new File([u8arr], `${filename}.${suffix}`, { type: mime })
-}
 
 /**
  * 上传图片到腾讯云
@@ -49,7 +16,7 @@ export function dataURLtoFile(dataurl, filename = 'file') {
  * @param progress
  * @returns {Promise<*>}
  */
-export async function tencentCloud({ companyId, cardId, folder, files, suffix, progress }) {
+export default async function tencentCloud({ companyId, cardId, folder, files, suffix, progress }) {
   return new Promise((resolve, reject) => {
     let cos = new COS({
       getAuthorization: function (options, callback) {

@@ -2,7 +2,7 @@
  * @Author: Firmiana 
  * @Date: 2019-04-03 11:22:18 
  * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 16:38:55
+ * @Last Modified time: 2019-04-03 17:28:24
  * @Desc: 图像处理相关方法 
  */
 
@@ -156,43 +156,5 @@ export function getLeft(width) {
  */
 export function getTop(height) {
   return (val) => { return val / 1344 * height }
-}
-
-/**
- * 通过图片url获取blob数据
- * @param url
- * @returns {Promise<any>}
- */
-export function getImageBlob(url) {
-  return new Promise((resolve, reject) => {
-    var xhr = new XMLHttpRequest()
-    xhr.open('get', url, true)
-    xhr.responseType = 'blob'
-    xhr.onload = function () {
-      if (this.status === 200) {
-        resolve(URL.createObjectURL(this.response))
-      } else {
-        reject(xhr)
-      }
-    }
-    xhr.send()
-  })
-}
-
-/**
- * 加载图片
- * @param img
- * @returns {Promise<any>}
- */
-export function loadImg(img) {
-  image.src = img
-  return new Promise((resolve, reject) => {
-    image.onload = () => {
-      resolve(image)
-    }
-    image.onerror = (e) => {
-      reject(e)
-    }
-  })
 }
 

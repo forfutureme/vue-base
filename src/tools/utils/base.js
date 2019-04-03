@@ -2,7 +2,7 @@
  * @Author: Firmiana 
  * @Date: 2019-04-03 11:18:19 
  * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 16:13:03
+ * @Last Modified time: 2019-04-03 18:26:00
  * @Desc: 基础方法/未分类方法 
  */
 
@@ -27,10 +27,10 @@ export function searchToObj() {
 
 /**
  * 转对象为字符串参数
- * @param o
+ * @jsonToPo
  * @returns {string}
  */
-export function paramsToStr(o = {}) {
+export function paramToStr(o = {}) {
   let str = ''
   for (let k in o) {
     str += `${k}=${o[k]}&`
@@ -51,7 +51,7 @@ export function strStartEnd(str, start = 7, end = 11) {
 }
 
 /**
- * title 大小写规范
+ * title 标题大小写
  * @param str
  */
 export function titleCase(str) {
@@ -153,4 +153,68 @@ export function getSmallProgramPage(type) {
     products: 'subs/mall/pages/productdetail/productdetail' // 商品
   }
   return map[type]
+}
+
+/**
+ * 获取字节长度
+ * @param {Sting} val 
+ * @returns {number} 
+ */
+export function getByteLen(val) {
+  let len = 0
+  for (let i = 0; i < val.length; i++) {
+    if (val[i].match(/[^\x00-\xff]/gi) != null) {
+      len += 1
+    } else {
+      len += 0.5
+    }
+  }
+  return Math.floor(len)
+}
+
+/**
+ * 清理数组
+ * @param {Array} actual 当前数组
+ */
+export function cleanArray(actual) {
+  const newArray = []
+  for (let i = 0; i < actual.length; i++) {
+    if (actual[i]) {
+      newArray.push(actual[i])
+    }
+  }
+  return newArray
+}
+
+/**
+ * 转化成参数
+ * @param {*} json 
+ */
+export function jsonToParam(json) {
+  if (!json) return ''
+  return cleanArray(
+    Object.keys(json).map(key => {
+      if (json[key] === undefined) return ''
+      return encodeURIComponent(key) + '=' + encodeURIComponent(json[key])
+    })
+  ).join('&')
+}
+
+/**
+ * 参数转化成Obj
+ * @param {*} json
+ */
+export function param2Obj(url) {
+  const search = url.split('?')[1]
+  if (!search) {
+    return {}
+  }
+  return JSON.parse(
+    '{"' +
+    decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"') +
+    '"}'
+  )
 }
