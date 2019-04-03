@@ -2,7 +2,7 @@
  * @Author: Firmiana 
  * @Date: 2019-04-03 11:18:19 
  * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 17:24:11
+ * @Last Modified time: 2019-04-03 18:26:00
  * @Desc: 基础方法/未分类方法 
  */
 
@@ -30,7 +30,7 @@ export function searchToObj() {
  * @jsonToPo
  * @returns {string}
  */
-export function jsonToPToStr(o = {}) {
+export function paramToStr(o = {}) {
   let str = ''
   for (let k in o) {
     str += `${k}=${o[k]}&`
