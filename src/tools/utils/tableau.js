@@ -1,15 +1,15 @@
-/*
- * @Author: Firmiana 
- * @Date: 2019-04-03 11:22:18 
+/**
+ * @Author: Firmiana
+ * @Date: 2019-04-03 11:22:18
  * @Last Modified by: Firmiana
  * @Last Modified time: 2019-04-03 17:28:24
- * @Desc: 图像处理相关方法 
+ * @Desc: 图像处理相关方法
  */
 
 /**
  * 设置图片尺寸
  */
-export function imgTozSize(str = '', size = 132) {
+export function imgTozSize (str = '', size = 132) {
   return str ? str.replace(/0$/, '132').replace(/0\.jpg(\?t=\d+)/, '132.jpg$1') : ''
 }
 
@@ -17,7 +17,7 @@ export function imgTozSize(str = '', size = 132) {
  * 获取设备物理高宽
  * @returns {{width: number, height: number}}
  */
-export function getDeviceWidthHeight() {
+export function getDeviceWidthHeight () {
   return {
     width: window.screen.width * window.devicePixelRatio,
     height: window.screen.height * window.devicePixelRatio
@@ -31,14 +31,14 @@ export function getDeviceWidthHeight() {
  * @param deviceVal
  * @returns {number}
  */
-export function calcRelativeVal(real, base, deviceVal) {
+export function calcRelativeVal (real, base, deviceVal) {
   return real / base * deviceVal
 }
 
 /**
  * 写文字
  * **/
-export function drawText({ context, color, size, bold = false, family = 'PingFangSC-Regular', text, left, top }) {
+export function drawText ({ context, color, size, bold = false, family = 'PingFangSC-Regular', text, left, top }) {
   context.font = `${bold ? 'bold ' : ' '}${size} ${family}`
   context.fillStyle = color
   // context.textAlign = 'center'
@@ -60,11 +60,12 @@ export function drawText({ context, color, size, bold = false, family = 'PingFan
  * @param leftFunc
  * @param topFunc
  */
-export function singleWordWrap({ context, color, size, bold, family, text, left, top, lineHeight, leftFunc, topFunc }) {
+export function singleWordWrap ({ context, color, size, bold, family, text, left, top, lineHeight, leftFunc, topFunc }) {
   let arr = text.split('')
   for (let i = 0; i < arr.length; i++) {
     drawText({
-      context, color, size: `${leftFunc(size)}px`, bold, family, text: text[i], left: leftFunc(left), top: topFunc(top + lineHeight * size * i)
+      context, color, size: `${leftFunc(size)}px`, bold, family, text: text[i], left: leftFunc(left),
+      top: topFunc(top + lineHeight * size * i)
     })
   }
 }
@@ -72,7 +73,7 @@ export function singleWordWrap({ context, color, size, bold, family, text, left,
 /**
  * 绘制图形
  * **/
-export function drawSquare({ context, color, width, height, left, top }) {
+export function drawSquare ({ context, color, width, height, left, top }) {
   // 绘制图形
   context.beginPath()
   // 设定图形边框的样式
@@ -87,7 +88,7 @@ export function drawSquare({ context, color, width, height, left, top }) {
 /**
  * 划线
  * **/
-export function drawLine({ context, color, width, moveL, moveT, toL, toT }) {
+export function drawLine ({ context, color, width, moveL, moveT, toL, toT }) {
   context.beginPath()
   context.strokeStyle = color
   context.lineWidth = width
@@ -105,7 +106,7 @@ export function drawLine({ context, color, width, moveL, moveT, toL, toT }) {
  * @param y
  * @param r
  */
-export function circleImg({ context, img, x, y, r }) {
+export function circleImg ({ context, img, x, y, r }) {
   context.save()
   context.beginPath()
   let d = 2 * r
@@ -128,7 +129,7 @@ export function circleImg({ context, img, x, y, r }) {
  * @param top
  * @param r
  */
-export function circArc({ context, color = '#fff', bWidth = 2, bColor = '#000', left, top, r }) {
+export function circArc ({ context, color = '#fff', bWidth = 2, bColor = '#000', left, top, r }) {
   context.save()
   context.beginPath()
   context.strokeStyle = bColor
@@ -145,7 +146,7 @@ export function circArc({ context, color = '#fff', bWidth = 2, bColor = '#000', 
  * @param width
  * @returns {function(*): number}
  */
-export function getLeft(width) {
+export function getLeft (width) {
   return (val) => { return val / 750 * width }
 }
 
@@ -154,7 +155,6 @@ export function getLeft(width) {
  * @param height
  * @returns {function(*): number}
  */
-export function getTop(height) {
+export function getTop (height) {
   return (val) => { return val / 1344 * height }
 }
-

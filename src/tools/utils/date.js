@@ -1,18 +1,18 @@
-/*
- * @Author: Firmiana 
- * @Date: 2019-04-03 15:47:32 
- * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 18:39:12
- * @Desc: 时间类处理方法 
+/**
+ * @Author: Firmiana
+ * @Date: 2019-04-03 15:47:32
+ * @Last Modified by: huweijian
+ * @Last Modified time: 2019-04-04 18:39:12
+ * @Desc: 时间类处理方法
  */
 import { zeroFill } from './base'
 
 /**
  * 时分秒时间戳互转
- * @param str
+ * @param str {string} 时间字符串
  * @returns {*}
  */
-export function translateTime(str) {
+export function translateTime (str) {
   let res
   if (/^\d+$/.test(str)) {
     let h = Math.floor(str / 60 / 60)
@@ -28,10 +28,10 @@ export function translateTime(str) {
 
 /**
  * 解析时间戳到具体时间对象
- * @param dateTime
+ * @param dateTime {date | string } 要处理的时间串
  * @returns {{year: number, mouth: number, date: number, yearMouth: string, ym: string, mouthDate: string, md: string, ymd: string, fullTime: string, day: number, dayText: *}}
  */
-export function dateToDataObj(dateTime) {
+export function dateToDataObj (dateTime) {
   let time
   if (typeof dateTime === 'string' && dateTime.indexOf('-') > -1) {
     time = dateTime.replace(/-/g, '/')
@@ -85,7 +85,7 @@ export function dateToDataObj(dateTime) {
  * @param {String} option
  * @returns {String}
  */
-export function formatTime(time, option) {
+export function formatTime (time, option) {
   time = +time * 1000
   const d = new Date(time)
   const now = Date.now()
@@ -125,7 +125,7 @@ export function formatTime(time, option) {
  * @param {String} cFormat
  * @returns {String}
  */
-export function parseTime(time, cFormat) {
+export function parseTime (time, cFormat) {
   if (arguments.length === 0) {
     return null
   }
@@ -146,7 +146,7 @@ export function parseTime(time, cFormat) {
     s: date.getSeconds(),
     a: date.getDay()
   }
-  const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+  const timeStr = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
     if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
@@ -155,15 +155,14 @@ export function parseTime(time, cFormat) {
     }
     return value || 0
   })
-  return time_str
+  return timeStr
 }
 
 /**
  * 转换当前日期 零点 时间戳
- * @author yang
  * @returns left right
  */
-export function date2TimeStamp() {
+export function date2TimeStamp () {
   const t = parseInt(
     +new Date(
       new Date().getFullYear() + '-' + (
@@ -179,7 +178,7 @@ export function date2TimeStamp() {
 /**
  * 获取当前时间段 -- 时间提醒
  */
-export function getNowDateShow() {
+export function getNowDateShow () {
   const t = new Date()
   const h = t.getHours()
   if (+h >= 0 && +h < 6) {

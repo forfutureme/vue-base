@@ -1,16 +1,15 @@
-/*
- * @Author: Firmiana 
- * @Date: 2019-04-03 11:18:19 
- * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 18:39:41
- * @Desc: 基础方法/未分类方法 
- */
-
 /**
- * 解析查询查询为对象
+ * @Author: Firmiana
+ * @Date: 2019-04-03 11:18:19
+ * @Last Modified by: huweijian
+ * @Last Modified time: 2019-04-04 18:39:41
+ * @Desc: 基础方法/未分a类方法
+ */
+/**
+ * 解析查询查询为对象默认解析浏览器url
  * @returns {{}}
  */
-export function searchToObj() {
+export function searchToObj () {
   let search = window.location.href.split('?')[1]
   if (!search) {
     return {}
@@ -27,10 +26,10 @@ export function searchToObj() {
 
 /**
  * 转对象为字符串参数
- * @jsonToPo
+ * @ o {object} 要处理的对象
  * @returns {string}
  */
-export function paramToStr(o = {}) {
+export function paramToStr (o = {}) {
   let str = ''
   for (let k in o) {
     str += `${k}=${o[k]}&`
@@ -40,47 +39,48 @@ export function paramToStr(o = {}) {
 
 /**
  * 截取字符串
- * @param str
- * @param start
- * @param end
+ * @param str {string} 要截取的对象
+ * @param start {number} 起始位置
+ * @param end {number} 结束位置
  * @returns {string}
  */
-export function strStartEnd(str, start = 7, end = 11) {
+export function strStartEnd (str, start = 7, end = 11) {
   str += ''
   return str.substring(start, end)
 }
 
 /**
- * title 标题大小写
- * @param str
+ * 首字母大写
+ * @param str {string} 要处理的字符串
  */
-export function titleCase(str) {
+export function titleCase (str) {
   return `${str[0].toUpperCase()}${str.substring(1)}`
 }
 
 /**
  * 给小于10的数字 前置补0
- * @param n
+ * @param n {number} 数字
  * @returns {string}
  */
-export function zeroFill(n) {
+export function zeroFill (n) {
   return n < 10 ? '0' + n : n
 }
 
 /**
  * 计算字符长度，汉字算2个
- * @param str
+ * @param str {string} 要计算的字符串
  * @returns {number}
  */
-export function calcStrLength(str = '') {
+export function calcStrLength (str = '') {
   return str.replace(/[\u0391-\uFFE5]/g, 'aa').length
 }
 
 /**
  * 千分位分割
- * @param num
+ * @param num {number} 要处理的数字
+ * @return {string}
  */
-export function toThousands(num) {
+export function toThousands (num) {
   num = +num
   num = (num || 0) + ''
   let r = ''
@@ -96,10 +96,11 @@ export function toThousands(num) {
 
 /**
  * 数字动画
- * @param num
- * @param maxNum
+ * @param dom {document} 动画数字显示的dom
+ * @param num {number} 起始数字
+ * @param maxNum {number} 结束数字
  */
-export function numRunFun(dom, num, maxNum) {
+export function numRunFun (dom, num, maxNum) {
   // console.log(maxNum)
   if (num === 0) {
     dom.innerHTML = maxNum
@@ -107,7 +108,7 @@ export function numRunFun(dom, num, maxNum) {
   }
   var numText = num
   var golb // 为了清除requestAnimationFrame
-  function numSlideFun() {
+  function numSlideFun () {
     numText += 1 // 速度的计算可以为小数
     if (numText >= maxNum) {
       numText = maxNum
@@ -125,7 +126,7 @@ export function numRunFun(dom, num, maxNum) {
  * 获取各浏览器激活字段
  * @returns {string}
  */
-export function getHiddenName() {
+export function getHiddenName () {
   let name = ''
   if ('hidden' in document) {
     name = 'hidden'
@@ -140,27 +141,11 @@ export function getHiddenName() {
 }
 
 /**
- * 获取小程序落地页入口
- * @param type
- * @returns {*}
- */
-export function getSmallProgramPage(type) {
-  let map = {
-    card: 'pages/tabbar/card/card', // 名片
-    mall: 'pages/tabbar/mall/mall', // 商城
-    dynamic: 'pages/tabbar/dynamic/dynamic', // 动态
-    home: 'pages/tabbar/website/website', // 官网
-    products: 'subs/mall/pages/productdetail/productdetail' // 商品
-  }
-  return map[type]
-}
-
-/**
  * 获取字节长度
- * @param {Sting} val 
- * @returns {number} 
+ * @param val {string} 要处理的字符串
+ * @returns {number}
  */
-export function getByteLen(val) {
+export function getByteLen (val) {
   let len = 0
   for (let i = 0; i < val.length; i++) {
     if (val[i].match(/[^\x00-\xff]/gi) != null) {
@@ -176,7 +161,7 @@ export function getByteLen(val) {
  * 清理数组
  * @param {Array} actual 当前数组
  */
-export function cleanArray(actual) {
+export function cleanArray (actual) {
   const newArray = []
   for (let i = 0; i < actual.length; i++) {
     if (actual[i]) {
@@ -188,9 +173,9 @@ export function cleanArray(actual) {
 
 /**
  * 转化成参数
- * @param {*} json 
+ * @param {*} json
  */
-export function jsonToParam(json) {
+export function jsonToParam (json) {
   if (!json) return ''
   return cleanArray(
     Object.keys(json).map(key => {
@@ -204,7 +189,7 @@ export function jsonToParam(json) {
  * 参数转化成Obj
  * @param {*} json
  */
-export function param2Obj(url) {
+export function param2Obj (url) {
   const search = url.split('?')[1]
   if (!search) {
     return {}
@@ -221,9 +206,9 @@ export function param2Obj(url) {
 
 /**
  * url操作/转换
- * @param {*} url 
+ * @param {*} url
  */
-export function getQueryObject(url) {
+export function getQueryObject (url) {
   url = url == null ? window.location.href : url
   const search = url.substring(url.lastIndexOf('?') + 1)
   const obj = {}
