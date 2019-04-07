@@ -26,7 +26,7 @@ export function searchToObj () {
 
 /**
  * 转对象为字符串参数
- * @ o {object} 要处理的对象
+ * @param o {object} 要处理的对象
  * @returns {string}
  */
 export function paramToStr (o = {}) {
@@ -173,7 +173,8 @@ export function cleanArray (actual) {
 
 /**
  * 转化成参数
- * @param {*} json
+ * @param json {object} 要处理的对象
+ * @return {string}
  */
 export function jsonToParam (json) {
   if (!json) return ''
@@ -186,8 +187,9 @@ export function jsonToParam (json) {
 }
 
 /**
- * 参数转化成Obj
- * @param {*} json
+ * 解析search部分成Obj
+ * @param url {string} url
+ * @return {*}
  */
 export function param2Obj (url) {
   const search = url.split('?')[1]
@@ -206,7 +208,7 @@ export function param2Obj (url) {
 
 /**
  * url操作/转换
- * @param {*} url
+ * @param url
  */
 export function getQueryObject (url) {
   url = url == null ? window.location.href : url

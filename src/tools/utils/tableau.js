@@ -7,7 +7,10 @@
  */
 
 /**
- * 设置图片尺寸
+ * 获取微信图片剪切大小
+ * @param str {string} 图片url
+ * @param size {number} 目标值 0/32/64/132/默认132
+ * @return {string}
  */
 export function imgTozSize (str = '', size = 132) {
   return str ? str.replace(/0$/, '132').replace(/0\.jpg(\?t=\d+)/, '132.jpg$1') : ''
@@ -36,8 +39,16 @@ export function calcRelativeVal (real, base, deviceVal) {
 }
 
 /**
- * 写文字
- * **/
+ * 在画布手上写文字
+ * @param context {Object} canvas画布对象 canvas.context
+ * @param color {string} 字体颜色rgb rgba(0, 0, 0, 1)
+ * @param size {string} 字体大小 20px
+ * @param bold {boolean} 是否加粗 false/true 默认值false
+ * @param family {string} 字体 字体样式 默认值PingFangSC-Regular
+ * @param text {string} 文字内容
+ * @param left {number} 左偏移值
+ * @param top {number} 上偏移值
+ */
 export function drawText ({ context, color, size, bold = false, family = 'PingFangSC-Regular', text, left, top }) {
   context.font = `${bold ? 'bold ' : ' '}${size} ${family}`
   context.fillStyle = color
@@ -48,31 +59,36 @@ export function drawText ({ context, color, size, bold = false, family = 'PingFa
 
 /**
  * 单个文字换行
- * @param context
- * @param color
- * @param size
- * @param bold
- * @param family
- * @param text
- * @param left
- * @param top
- * @param lineHeight
- * @param leftFunc
- * @param topFunc
+ * @param context {Object} canvas画布对象 canvas.context
+ * @param color {string} 字体颜色rgb rgba(0, 0, 0, 1)
+ * @param size {string} 字体大小 20px
+ * @param bold {boolean} 是否加粗 false/true 默认值false
+ * @param family {string} 字体 字体样式 默认值PingFangSC-Regular
+ * @param text {string} 文字内容
+ * @param left {number} 左偏移值
+ * @param top {number} 上偏移值
+ * @param lineHeight {number} 行高
+ * @param leftFunc {function} 左偏移计算方法
+ * @param topFunc {function} 上偏移计算方法
  */
-export function singleWordWrap ({ context, color, size, bold, family, text, left, top, lineHeight, leftFunc, topFunc }) {
+export function singleWordWrap ({ context, color, size, bold = false, family = 'PingFangSC-Regular', text, left, top, lineHeight, leftFunc, topFunc }) {
   let arr = text.split('')
   for (let i = 0; i < arr.length; i++) {
     drawText({
-      context, color, size: `${leftFunc(size)}px`, bold, family, text: text[i], left: leftFunc(left),
-      top: topFunc(top + lineHeight * size * i)
+      context, color, size: `${leftFunc(size)}px`, bold, family, text: text[i], left: leftFunc(left), top: topFunc(top + lineHeight * size * i)
     })
   }
 }
 
 /**
- * 绘制图形
- * **/
+ * 绘制矩形
+ * @param context {Object} canvas画布对象 canvas.context
+ * @param color {string} 图形填充色 '#fff'
+ * @param width {number} 宽
+ * @param height {number} 高
+ * @param left {number} 左偏移值
+ * @param top 上偏移值
+ */
 export function drawSquare ({ context, color, width, height, left, top }) {
   // 绘制图形
   context.beginPath()
@@ -87,7 +103,14 @@ export function drawSquare ({ context, color, width, height, left, top }) {
 
 /**
  * 划线
- * **/
+ * @param context {Object} canvas画布对象 canvas.context
+ * @param color  {string} 线颜色 '#fff'
+ * @param width {number} 线宽
+ * @param moveL {number} 起始左坐标
+ * @param moveT number} 起始上坐标
+ * @param toL {number} 结束左坐标
+ * @param toT {number} 结束上坐标
+ */
 export function drawLine ({ context, color, width, moveL, moveT, toL, toT }) {
   context.beginPath()
   context.strokeStyle = color
@@ -100,11 +123,11 @@ export function drawLine ({ context, color, width, moveL, moveT, toL, toT }) {
 
 /**
  * 圆角头像
- * @param ctx
- * @param img
- * @param x
- * @param y
- * @param r
+ * @param context {Object} canvas画布对象 canvas.context
+ * @param img {object} 图片实体内容
+ * @param x {number} 左偏移
+ * @param y {number} 右偏移
+ * @param r {number} 圆角半径
  */
 export function circleImg ({ context, img, x, y, r }) {
   context.save()
@@ -121,13 +144,13 @@ export function circleImg ({ context, img, x, y, r }) {
 
 /**
  * 画带描边的圆
- * @param context
- * @param color
- * @param bWidth
- * @param bColor
- * @param left
- * @param top
- * @param r
+ * @param context {Object} canvas画布对象 canvas.context
+ * @param color 填充颜色 '#fff'
+ * @param bWidth {number} 描边宽度
+ * @param bColor {number} 描边颜色
+ * @param left {number} 左偏移
+ * @param top {number} 右偏移
+ * @param r {number} 半径
  */
 export function circArc ({ context, color = '#fff', bWidth = 2, bColor = '#000', left, top, r }) {
   context.save()
@@ -143,7 +166,7 @@ export function circArc ({ context, color = '#fff', bWidth = 2, bColor = '#000',
 
 /**
  * 计算左位移
- * @param width
+ * @param width 实际宽
  * @returns {function(*): number}
  */
 export function getLeft (width) {
@@ -152,7 +175,7 @@ export function getLeft (width) {
 
 /**
  * 计算顶部位移
- * @param height
+ * @param height 实际高
  * @returns {function(*): number}
  */
 export function getTop (height) {

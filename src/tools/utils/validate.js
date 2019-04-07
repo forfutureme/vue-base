@@ -1,54 +1,54 @@
-/*
- * @Author: Firmiana 
- * @Date: 2019-04-03 11:17:32 
+/**
+ * @Author: Firmiana
+ * @Date: 2019-04-03 11:17:32
  * @Last Modified by: Firmiana
  * @Last Modified time: 2019-04-03 17:09:38
- * @Desc: 验证类方法 
+ * @Desc: 验证类方法
  */
 
 /**
-* 验证是否iPhone
-* @returns {boolean}
-*/
-export function isIPhone() {
+ * 验证是否iPhone
+ * @returns {boolean}
+ */
+export function isIPhone () {
   return window.navigator.appVersion.indexOf('iPhone') > -1
 }
 
 /**
  * 校验手机号 1+10位数字
- * @param val
+ * @param val {string} 输入字符串
  * @returns {boolean}
  */
-export function checkPhone(val) {
+export function checkPhone (val) {
   return /^1\d{10}$/.test(val)
 }
 
 /**
  * 校验手机验证码
- * @param val
- * @param len
+ * @param val {string} 验证码
+ * @param len {number} 长度 默认值6
  * @returns {boolean}
  */
-export function checkPhoneCode(val, len = 6) {
+export function checkPhoneCode (val, len = 6) {
   val = val + ''
   return /^\d+$/.test(val) && len === val.length
 }
 
 /**
-* 校验输入内容
-* @param val 待校验内容
-* @param type 校验类型 name=姓名，address=地址
-* @param mode 模式 cn=中文，en=英文
-* @param empty 是否可以不填，包含填空
-* @returns {*}
-*/
-export function checkText({ val, type, mode, empty = false }) {
+ * 校验输入内容
+ * @param val 待校验内容
+ * @param type 校验类型 name=姓名，address=地址
+ * @param mode 模式 cn=中文，en=英文
+ * @param empty 是否可以不填，包含填空
+ * @returns {*}
+ */
+export function checkText ({ val, type, mode, empty = false }) {
   if (empty && /^\s+$/.test(val)) {
     return false
   }
   let map = {
     // 姓名
-    name() {
+    name () {
       // 英文
       if (mode === 'en') {
         return /^[a-zA-Z\s]+$/.test(val)
@@ -56,14 +56,14 @@ export function checkText({ val, type, mode, empty = false }) {
       return /^[\u4e00-\u9fa5]+$/.test(val) && val.length <= 10
     },
     // 地址
-    address() {
+    address () {
       // 英文
       if (mode === 'en') {
         return /^[\w\s]+$/.test(val)
       }
       return /^[\u4e00-\u9fa5\w\s]+$/.test(val)
     },
-    common() {
+    common () {
       return /^[\u4e00-\u9fa5\w\s]+$/.test(val)
     }
   }
@@ -73,10 +73,10 @@ export function checkText({ val, type, mode, empty = false }) {
 
 /**
  * 验证身份证号码合法性
- * @param idCard
+ * @param idCard {string} 身份证号码
  * @returns {boolean}
  */
-export function checkIdCard(idCard) {
+export function checkIdCard (idCard) {
   if (idCard.length !== 18) {
     return false
   }
@@ -106,10 +106,10 @@ export function checkIdCard(idCard) {
 
 /**
  * 判断对象是否为空对象
- * @param o
+ * @param o {object} 要判断的内容
  * @returns {boolean}
  */
-export function isEmptyObj(o) {
+export function isEmptyObj (o) {
   let r
   for (let k in o) {
     r = !!k
@@ -118,15 +118,15 @@ export function isEmptyObj(o) {
 }
 
 /**
- * 判断当前运行环境
+ * 获取当前运行环境
  * @returns {string}
  */
-export function judge() {
+export function judge () {
   const ua = navigator.userAgent.toLocaleLowerCase()
   // alert(ua.indexOf('micromessenger'))
-  if (ua.indexOf('jiatui') > -1) {
-    return 'app'
-  }
+  // if (ua.indexOf('jiatui') > -1) {
+  //   return 'app'
+  // }
   if (ua.indexOf('micromessenger') > -1) {
     return 'wx'
   }
@@ -144,7 +144,7 @@ export function judge() {
  * @param file
  * @returns {boolean}
  */
-export function checkFile(file) {
+export function checkFile (file) {
   let type = file.type.split('/')[1]
   let types = ['jpg', 'png', 'jpeg']
   let sizeMax = 5000
@@ -164,7 +164,7 @@ export function checkFile(file) {
  * @param t 毫秒数 默认 500
  * @returns {Promise<any>}
  */
-export function wait(t = 500) {
+export function wait (t = 500) {
   return new Promise((resolve, reject) => {
     let timer = setTimeout(() => {
       timer = null
@@ -182,7 +182,7 @@ export function wait(t = 500) {
  * @param func 不存在时执行的方法
  * @returns {Promise<void>}
  */
-export async function checkNotNull(t = 100, o, key, func = () => { }) {
+export async function checkNotNull (t = 100, o, key, func = () => { }) {
   if (!o[key]) {
     func(o, key)
     await wait(t)
@@ -195,7 +195,7 @@ export async function checkNotNull(t = 100, o, key, func = () => { }) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function isvalidUsername(str) {
+export function isvalidUsername (str) {
   const validReg = /^[a-zA-Z0-9_-]{4,16}$/
   return validReg.test(str.trim())
 }
@@ -205,7 +205,7 @@ export function isvalidUsername(str) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function validateURL(textval) {
+export function validateURL (textval) {
   const urlRegex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
   return urlRegex.test(textval)
 }
@@ -215,7 +215,7 @@ export function validateURL(textval) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function validateLowerCase(str) {
+export function validateLowerCase (str) {
   const reg = /^[a-z]+$/
   return reg.test(str)
 }
@@ -225,7 +225,7 @@ export function validateLowerCase(str) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function validateUpperCase(str) {
+export function validateUpperCase (str) {
   const reg = /^[A-Z]+$/
   return reg.test(str)
 }
@@ -235,7 +235,7 @@ export function validateUpperCase(str) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function validateAlphabets(str) {
+export function validateAlphabets (str) {
   const reg = /^[A-Za-z]+$/
   return reg.test(str)
 }
@@ -245,7 +245,7 @@ export function validateAlphabets(str) {
  * @param {String} email - 邮箱
  * @returns {boolean}
  */
-export function validateEmail(email) {
+export function validateEmail (email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return re.test(email)
 }

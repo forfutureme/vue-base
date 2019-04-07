@@ -66,7 +66,10 @@ export function getImageBlob (url) {
     xhr.responseType = 'blob'
     xhr.onload = function () {
       if (this.status === 200) {
-        resolve(URL.createObjectURL(this.response))
+        resolve({
+          code: 1,
+          data: URL.createObjectURL(this.response)
+        })
       } else {
         reject(xhr)
       }
@@ -87,7 +90,10 @@ export function loadImg (img) {
   image.src = img
   return new Promise((resolve, reject) => {
     image.onload = () => {
-      resolve(image)
+      resolve({
+        code: 1,
+        data: image
+      })
     }
     image.onerror = (e) => {
       reject(e)
@@ -95,19 +101,30 @@ export function loadImg (img) {
   })
 }
 
-// export async function getImgBody (str) {
-//   let r = {
-//     code: -1,
-//     msg: '获取图片失败'
-//   }
-//   // 如果是base64字符串
-//   if (/^data:image/.test(str)) {
-//     let imgR = await loadImg(str)
-//     if (imgR.code !== 1) {
-//       r.msg = imgR
-//       return
-//     }
-//     r = imgR
-//     return r
-//   }
-// }
+/**
+ * 获取图片实体内容
+ * @param str {string} 图片url活着base64串
+ * @return {Promise<*>}
+ */
+export async function getImgBody (str) {
+  let r = {
+    code: -1,
+    msg: '获取图片失败'
+  }
+  // 如果是url资源
+  let imgContext = str
+  if (/^http/.test(str)) {
+    let contextR = await getImageBlob(str)
+    if (contextR.code !== 1) {
+      r.msg = contextR
+      return
+    }
+    imgContext = contextR.data
+  }
+  let imgBodyR = await loadImg(imgContext)
+  if (imgBodyR.code !== 1) {
+    r.msg = imgBodyR
+    return r
+  }
+  return imgBodyR
+}

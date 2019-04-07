@@ -1,22 +1,23 @@
-/*
- * @Author: Firmiana 
- * @Date: 2019-04-03 16:09:34 
+/**
+ * @Author: Firmiana
+ * @Date: 2019-04-03 16:09:34
  * @Last Modified by: Firmiana
  * @Last Modified time: 2019-04-03 18:18:40
- * @Desc: 文件传输相关方法 
+ * @Desc: 文件传输相关方法
  */
-
+/* global COS */
+/* global axios */
 /**
  * 上传图片到腾讯云
- * @param companyId
- * @param cardId
- * @param folder
- * @param files
- * @param suffix
- * @param progress
+ * @param companyId {string} 业务id用于文件夹区分可修改
+ * @param cardId {string} 业务id用于文件夹区分可修改
+ * @param folder {string} 文件名称
+ * @param files {object} 2进制文件
+ * @param suffix {string} 后缀
+ * @param progress {function} 上传过程中执行的方法
  * @returns {Promise<*>}
  */
-export default async function tencentCloud({ companyId, cardId, folder, files, suffix, progress }) {
+export default async function tencentCloud ({ companyId, cardId, folder, files, suffix, progress }) {
   return new Promise((resolve, reject) => {
     let cos = new COS({
       getAuthorization: function (options, callback) {
