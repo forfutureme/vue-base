@@ -1,23 +1,23 @@
 /**
  * @Author: Firmiana
  * @Date: 2019-04-03 11:18:19
- * @Last Modified by: huweijian
- * @Last Modified time: 2019-04-04 18:39:41
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-08 19:24:13
  * @Desc: 基础方法/未分a类方法
  */
 /**
  * 解析查询查询为对象默认解析浏览器url
  * @returns {{}}
  */
-export function searchToObj () {
-  let search = window.location.href.split('?')[1]
+export function searchToObj() {
+  const search = window.location.href.split('?')[1]
   if (!search) {
     return {}
   }
-  let arr = search.split('&')
-  let obj = {}
+  const arr = search.split('&')
+  const obj = {}
   arr.forEach(item => {
-    let r = item.split('=')
+    const r = item.split('=')
     obj[r[0]] = r[1]
   })
   // console.log(obj)
@@ -29,9 +29,9 @@ export function searchToObj () {
  * @param o {object} 要处理的对象
  * @returns {string}
  */
-export function paramToStr (o = {}) {
+export function paramToStr(o = {}) {
   let str = ''
-  for (let k in o) {
+  for (const k in o) {
     str += `${k}=${o[k]}&`
   }
   return str ? `?${str.replace(/&$/, '')}` : str
@@ -44,7 +44,7 @@ export function paramToStr (o = {}) {
  * @param end {number} 结束位置
  * @returns {string}
  */
-export function strStartEnd (str, start = 7, end = 11) {
+export function strStartEnd(str, start = 7, end = 11) {
   str += ''
   return str.substring(start, end)
 }
@@ -53,7 +53,7 @@ export function strStartEnd (str, start = 7, end = 11) {
  * 首字母大写
  * @param str {string} 要处理的字符串
  */
-export function titleCase (str) {
+export function titleCase(str) {
   return `${str[0].toUpperCase()}${str.substring(1)}`
 }
 
@@ -62,7 +62,7 @@ export function titleCase (str) {
  * @param n {number} 数字
  * @returns {string}
  */
-export function zeroFill (n) {
+export function zeroFill(n) {
   return n < 10 ? '0' + n : n
 }
 
@@ -71,7 +71,7 @@ export function zeroFill (n) {
  * @param str {string} 要计算的字符串
  * @returns {number}
  */
-export function calcStrLength (str = '') {
+export function calcStrLength(str = '') {
   return str.replace(/[\u0391-\uFFE5]/g, 'aa').length
 }
 
@@ -80,7 +80,7 @@ export function calcStrLength (str = '') {
  * @param num {number} 要处理的数字
  * @return {string}
  */
-export function toThousands (num) {
+export function toThousands(num) {
   num = +num
   num = (num || 0) + ''
   let r = ''
@@ -100,7 +100,7 @@ export function toThousands (num) {
  * @param num {number} 起始数字
  * @param maxNum {number} 结束数字
  */
-export function numRunFun (dom, num, maxNum) {
+export function numRunFun(dom, num, maxNum) {
   // console.log(maxNum)
   if (num === 0) {
     dom.innerHTML = maxNum
@@ -108,7 +108,7 @@ export function numRunFun (dom, num, maxNum) {
   }
   var numText = num
   var golb // 为了清除requestAnimationFrame
-  function numSlideFun () {
+  function numSlideFun() {
     numText += 1 // 速度的计算可以为小数
     if (numText >= maxNum) {
       numText = maxNum
@@ -116,7 +116,7 @@ export function numRunFun (dom, num, maxNum) {
     } else {
       golb = window.requestAnimationFrame(numSlideFun)
     }
-    dom.innerHTML = ~~(numText)
+    dom.innerHTML = ~~numText
   }
 
   numSlideFun()
@@ -126,7 +126,7 @@ export function numRunFun (dom, num, maxNum) {
  * 获取各浏览器激活字段
  * @returns {string}
  */
-export function getHiddenName () {
+export function getHiddenName() {
   let name = ''
   if ('hidden' in document) {
     name = 'hidden'
@@ -145,10 +145,10 @@ export function getHiddenName () {
  * @param val {string} 要处理的字符串
  * @returns {number}
  */
-export function getByteLen (val) {
+export function getByteLen(val) {
   let len = 0
   for (let i = 0; i < val.length; i++) {
-    if (val[i].match(/[^\x00-\xff]/gi) != null) {
+    if (val[i].match(/[^\x00-\xff]/gi) !== null) {
       len += 1
     } else {
       len += 0.5
@@ -161,7 +161,7 @@ export function getByteLen (val) {
  * 清理数组
  * @param {Array} actual 当前数组
  */
-export function cleanArray (actual) {
+export function cleanArray(actual) {
   const newArray = []
   for (let i = 0; i < actual.length; i++) {
     if (actual[i]) {
@@ -176,7 +176,7 @@ export function cleanArray (actual) {
  * @param json {object} 要处理的对象
  * @return {string}
  */
-export function jsonToParam (json) {
+export function jsonToParam(json) {
   if (!json) return ''
   return cleanArray(
     Object.keys(json).map(key => {
@@ -191,18 +191,18 @@ export function jsonToParam (json) {
  * @param url {string} url
  * @return {*}
  */
-export function param2Obj (url) {
+export function param2Obj(url) {
   const search = url.split('?')[1]
   if (!search) {
     return {}
   }
   return JSON.parse(
     '{"' +
-    decodeURIComponent(search)
-      .replace(/"/g, '\\"')
-      .replace(/&/g, '","')
-      .replace(/=/g, '":"') +
-    '"}'
+      decodeURIComponent(search)
+        .replace(/"/g, '\\"')
+        .replace(/&/g, '","')
+        .replace(/=/g, '":"') +
+      '"}'
   )
 }
 
@@ -210,8 +210,8 @@ export function param2Obj (url) {
  * url操作/转换
  * @param url
  */
-export function getQueryObject (url) {
-  url = url == null ? window.location.href : url
+export function getQueryObject(url) {
+  url = url === null ? window.location.href : url
   const search = url.substring(url.lastIndexOf('?') + 1)
   const obj = {}
   const reg = /([^?&=]+)=([^?&=]*)/g
@@ -223,4 +223,13 @@ export function getQueryObject (url) {
     return rs
   })
   return obj
+}
+
+/**
+ * 获取实时随机字符串
+ */
+export function createUniqueString() {
+  const timestamp = +new Date() + ''
+  const randomNum = parseInt((1 + Math.random()) * 65536, 10) + ''
+  return (+(randomNum + timestamp)).toString(32)
 }

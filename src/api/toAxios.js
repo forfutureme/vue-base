@@ -1,114 +1,184 @@
 /**
- * Created by huweijian on 2018/4/2.
- * @title
+ * @Author: huweijian
+ * @Date: 2019-04-28 14:09:48
+ * @Last Modified by: Firmiana
+ * @Last Modified time: 2019-07-16 16:31:11
+ * @Desc: 封装axios方法
  */
-/* global POOL */
-/* global HOST */
-/* global ENV */
-/* global localStorage */
-import axios from 'axios'
-
-import store from '../store/index'
-import * as types from '../store/mutation-types'
-import { base, signFlag } from '../tools/utils/index'
-import method from '@/tools/method'
 
 /**
- * 封装正常的ajax请求
+ * 方法请求第二个参数c的字段描述
+ * shadow: 是否显示loading 默认值true
+ * returnType: 告诉方法返回res还是res.data 默认res
+ * hostType: 告诉方法要用哪个host发起请求 默认值是host 在getUrl方法中被配置
+ * contentType: 告诉方法用哪个请求头 默认值json 在getHeader中配置
+ * paramsType： 告诉方法参数提交方式 默认值normal即body里json提交 在joinParams种配置
+ * showErrMsg： 接口请求错误显示错误信息,默认true
+ */
+
+import axios from 'axios'
+// import config from '@/config/index'
+import config from '../../config/index'
+import utils from '@utils/index'
+// import { loading } from '@utils/eventSpin'
+import qs from 'qs'
+
+// function loading(params) {}
+
+/**
+ * 重组URL
+ * @param path
+ * @param hostType
+ * @returns {string}
+ */
+async function getUrl(path, hostType) {
+	return `${config.api[hostType || 'host']}/${path}`
+}
+/**
+ * 重组header
+ * @returns {{token: (string)}}
+ */
+async function getHeader(token, contentType = 'json', acceptType = 'normal') {
+	// const k = store.state.device === APP ? 'i-token' : 'token'
+	const typeMap = {
+		form: 'application/x-www-form-urlencoded;charset=UTF-8',
+		json: 'application/json'
+	}
+	const t = utils.sessionStorage.getItem('i-token') || ''
+	const acceptMap = {
+		normal: 'application/json, text/plain, */*',
+		export: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
+	}
+	return {
+		'i-token': token || t,
+		'X-Requested-With': 'XMLHttpRequest',
+		'Content-Type': typeMap[contentType],
+		Accept: acceptMap[acceptType]
+	}
+}
+/**
+ * 重组参数
+ * @param {*} paramsType
+ * @param {*} params
+ */
+function joinParams(params, paramsType = 'normal') {
+	const joinMap = {
+		normal: () => {
+			return params
+		},
+		stringify: () => {
+			// return utils.base.paramToStr(params).replace(/\?/, '')
+			return qs.stringify(params)
+		}
+	}
+	return joinMap[paramsType]()
+}
+
+/**
+ * 封装的post请求
  * @param path {string} api路径
  * @param params {object} 请求参数
- * @param config {object} 配置参数
+ * @param c {object} 配置参数
  * @returns {Promise<*>}
  */
-export async function toAxios (path, params = {}, config = { shadow: true, method: 'POST' }) {
-  console.log(path, params, config)
-  try {
-    // 更具环境配置自动拼接url
-    let url = `${POOL}://${HOST}${ENV === 'dev' ? ':7001' : '/xxxx'}/${path}`
-    // let token = localStorage.getItem('token') || store.state.token
-    // 调用接口 前开启遮罩和loading
-    if (config.shadow) {
-    }
-    
-    // let signInfo = token ? signFlag.createSign(token) : {}
-    // 调用axios方法发送请求
-    let r = await axios({
-      method: 'get',
-      headers: {
-        // token,
-        // ...signInfo
-      },
-      url: url,
-      data: params
-    })
-    // 接口返回后取消遮罩
-    if (config.shadow) {
-      // store.commit(types.SHADOW_CTRL, false)
-      // store.commit(types.LOADING_CTRL, false)
-    }
-    // 接口正常返回
-    return result(r)
-  } catch (e) {
-    console.error(e)
-    // store.commit(types.SHADOW_CTRL, false)
-    // store.commit(types.LOADING_CTRL, false)
-    // store.commit(types.LAYER_AUTO_HIDE_CTRL, {
-    //   show: true,
-    //   text: '网络出错，请重试'
-    // })
-    return -1
-  }
-}
-export async function getAxios (path, params = {}, config = {shadow: true}) {
-  try {
-    let url = `${POOL}://${HOST}${ENV === 'dev' ? ':7001' : '/xxxx'}/${path}`
-    // let token = localStorage.getItem('token') || store.state.token
-    // 调用接口 前开启遮罩和loading
-    if (config.shadow) {
-    }
-    let r = await axios.get(`${url}${base.paramsToStr(params)}`)
-    return result(r)
-  } catch (e) {
-    console.error(e)
-    return -1
-  }
+export async function postAxios(path, params = {}, c = {}) {
+	// console.log(path, params, config)
+	const config = {
+		shadow: true,
+		...c
+	}
+	try {
+		// 更具环境配置自动拼接url ${ENV === 'dev' ? ':7001' : '/xxxx'}
+		const url = await getUrl(path, config.hostType)
+		// 调用接口 前开启遮罩和loading
+		// if (config.shadow) {
+		// 	loading({
+		// 		show: true
+		// 	})
+		// }
+		// 整合参数
+		const obj = {
+			method: 'POST',
+			url: url,
+			// params: query
+			data: joinParams(params, c.paramsType)
+		}
+		// 获取header
+		// config.contentType
+		// form: 'application/x-www-form-urlencoded;charset=UTF-8',
+		const headers = await getHeader(config.token, config.contentType, config.acceptType)
+		const r = await axios({
+			...obj,
+			headers
+		})
+		// 接口返回后取消遮罩
+		// if (config.shadow) {
+		// 	loading()
+		// }
+		// 接口正常返回
+		return result(r, c)
+	} catch (e) {
+		// loading()
+		console.error(e)
+		return -1
+	}
 }
 /**
- * 单纯的发个请求，不关心返回值
- * @param url
+ * get方法
+ * @param path
  * @param params
- * @param config
+ * @param c
+ * @returns {Promise<*>}
  */
-export function toSend (url, params, config) {
-  return axios({
-    method: (config && config.method) || 'POST',
-    url: url,
-    data: params
-  })
+export async function getAxios(path, params = {}, c = {}) {
+	try {
+		// ${ENV === 'dev' ? ':7001' : '/xxxx'}
+		const config = {
+			shadow: true,
+			...c
+		}
+		const url = await getUrl(path, config.hostType)
+		// let token = localStorage.getItem('token') || store.state.token
+		// 调用接口 前开启遮罩和loading
+		// if (config.shadow) {
+		// 	loading({
+		// 		show: true
+		// 	})
+		// }
+		const headers = await getHeader(config.token)
+		const r = await axios.get(`${url}?${qs.stringify(params)}`, {
+			headers: headers
+		})
+		// if (config.shadow) {
+		// 	loading()
+		// }
+		return result(r, c)
+	} catch (e) {
+		// loading()
+		console.error(e)
+		return -1
+	}
 }
 
-function result (r) {
-  // 接口正常返回
-  if (r.status === 200) {
-    let res = r.data
-    return res
-    // 异常处理
-    // if (res.code === 490 || res.code === 444) {
-    // }
-    // if (res.code === 200) {
-    //   return res.data
-    // }
-    // 异常提示
-    // store.commit(types.LAYER_AUTO_HIDE_CTRL, {
-    //   show: true,
-    //   text: res.msg
-    // })
-    return -1
-  }
-  console.error(r)
-  // store.commit(types.LAYER_AUTO_HIDE_CTRL, {
-  //   show: true,
-  //   msg: '系统错误'
-  // })
-  return -1
+/**
+ * 处理结果
+ * @param r
+ * @returns {*}
+ */
+function result(r, c) {
+	const { showErrMsg = true, returnType = 'res' } = c
+	// 接口正常返回
+	if (r.status === 200) {
+		const res = r.data
+		// 异常处理
+		if (res.code === 200 || res.code === 0 || res.errcode === 0) {
+			return returnType === 'res' ? res : res.data
+		}
+		if (showErrMsg) {
+			Message.warning(res.msg)
+		}
+		return -1
+	}
+	console.error(r)
+	return -1
 }

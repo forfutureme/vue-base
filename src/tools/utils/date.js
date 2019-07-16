@@ -2,26 +2,28 @@
  * @Author: Firmiana
  * @Date: 2019-04-03 15:47:32
  * @Last Modified by: huweijian
- * @Last Modified time: 2019-04-04 18:39:12
+ * @Last Modified time: 2019-04-27 16:57:41
  * @Desc: 时间类处理方法
  */
-import { zeroFill } from './base'
+import {
+  zeroFill
+} from './base'
 
 /**
  * 时分秒时间戳互转
  * @param str {string} 时间字符串
  * @returns {*}
  */
-export function translateTime (str) {
+export function translateTime(str) {
   let res
   if (/^\d+$/.test(str)) {
-    let h = Math.floor(str / 60 / 60)
-    let m = Math.floor((str - h * 60 * 60) / 60)
-    let s = str - h * 60 * 60 - m * 60
+    const h = Math.floor(str / 60 / 60)
+    const m = Math.floor((str - h * 60 * 60) / 60)
+    const s = str - h * 60 * 60 - m * 60
     res = `${zeroFill(h)}:${zeroFill(m)}:${zeroFill(s)}`
     return res
   }
-  let arr = str.split(':')
+  const arr = str.split(':')
   res = arr[0] * 60 * 60 + arr[1] * 60 + arr[2] * 1
   return +res
 }
@@ -31,22 +33,22 @@ export function translateTime (str) {
  * @param dateTime {date | string } 要处理的时间串
  * @returns {{year: number, mouth: number, date: number, yearMouth: string, ym: string, mouthDate: string, md: string, ymd: string, fullTime: string, day: number, dayText: *}}
  */
-export function dateToDataObj (dateTime) {
+export function dateToDataObj(dateTime) {
   let time
   if (typeof dateTime === 'string' && dateTime.indexOf('-') > -1) {
     time = dateTime.replace(/-/g, '/')
   } else {
     time = dateTime
   }
-  let d = time ? new Date(time) : new Date()
-  let year = d.getFullYear()
-  let mouth = d.getMonth() + 1
-  let date = d.getDate()
-  let hour = d.getHours()
-  let min = d.getMinutes()
-  let sec = d.getSeconds()
-  let day = d.getDay() || 7
-  let dayMap = {
+  const d = time ? new Date(time) : new Date()
+  const year = d.getFullYear()
+  const mouth = d.getMonth() + 1
+  const date = d.getDate()
+  const hour = d.getHours()
+  const min = d.getMinutes()
+  const sec = d.getSeconds()
+  const day = d.getDay() || 7
+  const dayMap = {
     1: '星期一',
     2: '星期二',
     3: '星期三',
@@ -55,8 +57,8 @@ export function dateToDataObj (dateTime) {
     6: '星期六',
     7: '星期天'
   }
-  let mouthEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  let mouthZn = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二']
+  const mouthEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const mouthZn = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二']
   return {
     year,
     mouth: zeroFill(mouth),
@@ -85,7 +87,7 @@ export function dateToDataObj (dateTime) {
  * @param {String} option
  * @returns {String}
  */
-export function formatTime (time, option) {
+export function formatTime(time, option) {
   time = +time * 1000
   const d = new Date(time)
   const now = Date.now()
@@ -125,7 +127,7 @@ export function formatTime (time, option) {
  * @param {String} cFormat
  * @returns {String}
  */
-export function parseTime (time, cFormat) {
+export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null
   }
@@ -149,7 +151,9 @@ export function parseTime (time, cFormat) {
   const timeStr = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -162,7 +166,7 @@ export function parseTime (time, cFormat) {
  * 转换当前日期 零点 时间戳
  * @returns left right
  */
-export function date2TimeStamp () {
+export function date2TimeStamp() {
   const t = parseInt(
     +new Date(
       new Date().getFullYear() + '-' + (
@@ -178,7 +182,7 @@ export function date2TimeStamp () {
 /**
  * 获取当前时间段 -- 时间提醒
  */
-export function getNowDateShow () {
+export function getNowDateShow() {
   const t = new Date()
   const h = t.getHours()
   if (+h >= 0 && +h < 6) {

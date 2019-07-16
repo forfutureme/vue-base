@@ -11,19 +11,19 @@ import * as types from '../store/mutation-types'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-  // mode: 'history',
-  scrollBehavior: () => ({y: 0}),
-  routes: [
-    {
-      path: '/',
-      redirect: 'index'
-    },
-    {
-      path: '/index',
-      name: 'index',
-      component: () => import('views/index')
-    }
-  ]
+	// mode: 'history',
+	scrollBehavior: () => ({ y: 0 }),
+	routes: [
+		{
+			path: '/',
+			redirect: 'index'
+		},
+		{
+			path: '/index',
+			name: 'index',
+			component: () => import('@views/index')
+		}
+	]
 })
 
 // 路由钩子

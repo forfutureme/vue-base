@@ -10,151 +10,145 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 let mode = process.env.mode || process.env.NODE_ENV
 console.log(`mode-----${mode}`)
 let postCssConfig = {
-  loader: 'postcss-loader',
-  options: {
-    ident: 'postcss',
-    plugins: [
-      require('autoprefixer')({
-        browsers: ['last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie > 8']
-      }),
-      require('postcss-px2rem')({ remUnit: 75, propWhiteList: [] })
-    ]
-  }
+	loader: 'postcss-loader',
+	options: {
+		ident: 'postcss',
+		plugins: [
+			require('autoprefixer')({
+				browsers: [ 'last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie > 8' ]
+			}),
+			require('postcss-px2rem')({ remUnit: 75, propWhiteList: [] })
+		]
+	}
 }
 let config = {
-  entry: {
-    app: [
-      'babel-polyfill',
-      path.join(__dirname, '../src/app.js')
-    ]
-  },
-  output: {
-    chunkFilename: '[name].js',
-    filename: '[name].js',
-    path: path.resolve(__dirname, '../dist')
-  },
-  module: {
-    rules: [
-      // 样式
-      {
-        test: /\.css$/,
-        use: [
-          mode ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-          {
-            loader: 'css-loader',
-            options: { importLoaders: 1 }
-          },
-          // 'stylus-loader',
-          postCssConfig
-        ]
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: [
-          mode ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-          'css-loader',
-          postCssConfig,
-          'stylus-loader'
-        ]
-      },
-      // 图片 音频文件
-      {
-        test: /\.(png|svg|jpg|jpeg|gif|mp3)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              name: 'images/[name].[ext]?[hash]'
-            }
-          }
-        ]
-      },
-      // 字体
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              limit: 10000,
-              name: 'fonts/[name].[ext]?[hash]'
-            }
-          }
-        ]
-      },
-      // Data文件 比如xml
-      {
-        test: /\.(csv|tsv)$/,
-        use: [
-          {
-            loader: 'csv-loader',
-            options: {
-              limit: 10000,
-              name: 'data/[name].[ext]?[hash]'
-            }
-          }
-        ]
-      },
-      {
-        test: /\.xml$/,
-        use: [
-          {
-            loader: 'xml-loader',
-            options: {
-              limit: 20000,
-              name: 'data/[name].[ext]?[hash]'
-            }
-          }
-        ]
-      },
-      // js
-      {
-        test: /\.(js|jsx)/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      },
-      // vue
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      }
-    ]
-  },
-  // 插件
-  plugins: [
-    // vue-loader插件
-    new VueLoaderPlugin(),
-    // 写入js路劲到目标html页面
-    new HtmlWebpackPlugin({
-      title: 'Web',
-      inject: 'body',
-      template: './src/index.html',
-      filename: 'index.html'
-    })
-  ],
-  resolve: {
-    modules: [
-      'node_modules',
-      path.resolve(projectRoot)
-    ],
-    extensions: ['.webpack.js', '.web.js', '.js', '.vue'],
-    // 路劲别名配置 有深到浅配置，否则自动引用不会用最近的
-    alias: {
-      '@': path.resolve(__dirname, '../src'),
-      'api': path.resolve(__dirname, '../src/api'),
-      'stylus': path.resolve(__dirname, '../src/assets/stylus'),
-      'assets': path.resolve(__dirname, '../src/assets'),
-      'store': path.resolve(__dirname, '../src/store'),
-      'socket': path.resolve(__dirname, '../src/socket'),
-      'tools': path.resolve(__dirname, '../src/tools'),
-      'test': path.resolve(__dirname, '../src/components/test'),
-      'commons': path.resolve(__dirname, '../src/components/commons'),
-      'components': path.resolve(__dirname, '../src/components'),
-      'views': path.resolve(__dirname, '../src/views'),
-      'src': path.resolve(__dirname, '../src')
-    }
-  }
+	entry: {
+		app: [ 'babel-polyfill', path.join(__dirname, '../src/app.js') ]
+	},
+	output: {
+		chunkFilename: '[name].js',
+		filename: '[name].js',
+		path: path.resolve(__dirname, '../dist')
+	},
+	module: {
+		rules: [
+			// 样式
+			{
+				test: /\.css$/,
+				use: [
+					mode ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+					{
+						loader: 'css-loader',
+						options: { importLoaders: 1 }
+					},
+					// 'stylus-loader',
+					postCssConfig
+				]
+			},
+			{
+				test: /\.styl(us)?$/,
+				use: [
+					mode ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+					'css-loader',
+					postCssConfig,
+					'stylus-loader'
+				]
+			},
+			// 图片 音频文件
+			{
+				test: /\.(png|svg|jpg|jpeg|gif|mp3)$/,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							limit: 10000,
+							name: 'images/[name].[ext]?[hash]'
+						}
+					}
+				]
+			},
+			// 字体
+			{
+				test: /\.(woff|woff2|eot|ttf|otf)$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							limit: 10000,
+							name: 'fonts/[name].[ext]?[hash]'
+						}
+					}
+				]
+			},
+			// Data文件 比如xml
+			{
+				test: /\.(csv|tsv)$/,
+				use: [
+					{
+						loader: 'csv-loader',
+						options: {
+							limit: 10000,
+							name: 'data/[name].[ext]?[hash]'
+						}
+					}
+				]
+			},
+			{
+				test: /\.xml$/,
+				use: [
+					{
+						loader: 'xml-loader',
+						options: {
+							limit: 20000,
+							name: 'data/[name].[ext]?[hash]'
+						}
+					}
+				]
+			},
+			// js
+			{
+				test: /\.(js|jsx)/,
+				loader: 'babel-loader',
+				exclude: /node_modules/
+			},
+			// vue
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader'
+			}
+		]
+	},
+	// 插件
+	plugins: [
+		// vue-loader插件
+		new VueLoaderPlugin(),
+		// 写入js路劲到目标html页面
+		new HtmlWebpackPlugin({
+			title: 'Web',
+			inject: 'body',
+			template: './src/index.html',
+			filename: 'index.html'
+		})
+	],
+	resolve: {
+		modules: [ 'node_modules', path.resolve(projectRoot) ],
+		extensions: [ '.webpack.js', '.web.js', '.js', '.vue' ],
+		// 路劲别名配置 有深到浅配置，否则自动引用不会用最近的
+		alias: {
+			'@': path.resolve(__dirname, '../src'),
+			'@api': path.resolve(__dirname, '../src/api'),
+			'@less': path.resolve(__dirname, '../src/assets/less'),
+			'@assets': path.resolve(__dirname, '../src/assets'),
+			'@store': path.resolve(__dirname, '../src/store'),
+			'@tools': path.resolve(__dirname, '../src/tools'),
+			'@utils': path.resolve(__dirname, '../src/tools/utils'),
+			'@test': path.resolve(__dirname, '../src/components/test'),
+			'@commons': path.resolve(__dirname, '../src/components/commons'),
+			'@components': path.resolve(__dirname, '../src/components'),
+			'@views': path.resolve(__dirname, '../src/views'),
+			vue$: 'vue/dist/vue.esm.js'
+		}
+	}
 }
 module.exports = config
 // vendor: {

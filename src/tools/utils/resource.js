@@ -1,8 +1,8 @@
 /**
  * @Author: Firmiana
  * @Date: 2019-04-03 17:30:08
- * @Last Modified by: huweijian
- * @Last Modified time: 2019-04-04 17:30:08
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-08 19:10:24
  * @Desc: 外部资源方法
  */
 
@@ -20,17 +20,14 @@ image.setAttribute('crossOrigin', '')
  * @param file
  * @returns {Promise<*>}
  */
-export async function readFile (file) {
+export async function readFile(file) {
   reader.readAsDataURL(file)
   return new Promise((resolve, reject) => {
     reader.onload = () => {
-      resolve({
-        code: 1,
-        data: reader.result
-      })
+      resolve(reader.result)
     }
-    reader.onerror = (e) => {
-      reject(e)
+    reader.onerror = e => {
+      reject(-1)
     }
   })
 }
@@ -41,17 +38,19 @@ export async function readFile (file) {
  * @param filename {string} 文件名
  * @returns {File}
  */
-export function dataURLtoFile (data, filename = 'file') {
-  let arr = data.split(',')
-  let mime = arr[0].match(/:(.*?);/)[1]
-  let suffix = mime.split('/')[1]
-  let bstr = atob(arr[1])
+export function dataURLtoFile(data, filename = 'file') {
+  const arr = data.split(',')
+  const mime = arr[0].match(/:(.*?);/)[1]
+  const suffix = mime.split('/')[1]
+  const bstr = atob(arr[1])
   let n = bstr.length
-  let u8arr = new Uint8Array(n)
+  const u8arr = new Uint8Array(n)
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n)
   }
-  return new File([u8arr], `${filename}.${suffix}`, { type: mime })
+  return new File([u8arr], `${filename}.${suffix}`, {
+    type: mime
+  })
 }
 
 /**
@@ -59,12 +58,12 @@ export function dataURLtoFile (data, filename = 'file') {
  * @param url {string} 链接
  * @returns {Promise<any>}
  */
-export function getImageBlob (url) {
+export function getImageBlob(url) {
   return new Promise((resolve, reject) => {
     var xhr = new XMLHttpRequest()
     xhr.open('get', url, true)
     xhr.responseType = 'blob'
-    xhr.onload = function () {
+    xhr.onload = function() {
       if (this.status === 200) {
         resolve({
           code: 1,
@@ -74,7 +73,7 @@ export function getImageBlob (url) {
         reject(xhr)
       }
     }
-    xhr.onerror = (e) => {
+    xhr.onerror = e => {
       reject(e)
     }
     xhr.send()
@@ -86,17 +85,14 @@ export function getImageBlob (url) {
  * @param img {string} 图片地址url
  * @returns {Promise<any>}
  */
-export function loadImg (img) {
+export function loadImg(img) {
   image.src = img
   return new Promise((resolve, reject) => {
-    image.onload = () => {
-      resolve({
-        code: 1,
-        data: image
-      })
+    image.onload = e => {
+      resolve(image)
     }
-    image.onerror = (e) => {
-      reject(e)
+    image.onerror = e => {
+      reject(-1)
     }
   })
 }
@@ -106,22 +102,22 @@ export function loadImg (img) {
  * @param str {string} 图片url活着base64串
  * @return {Promise<*>}
  */
-export async function getImgBody (str) {
-  let r = {
+export async function getImgBody(str) {
+  const r = {
     code: -1,
     msg: '获取图片失败'
   }
   // 如果是url资源
   let imgContext = str
   if (/^http/.test(str)) {
-    let contextR = await getImageBlob(str)
+    const contextR = await getImageBlob(str)
     if (contextR.code !== 1) {
       r.msg = contextR
       return
     }
     imgContext = contextR.data
   }
-  let imgBodyR = await loadImg(imgContext)
+  const imgBodyR = await loadImg(imgContext)
   if (imgBodyR.code !== 1) {
     r.msg = imgBodyR
     return r

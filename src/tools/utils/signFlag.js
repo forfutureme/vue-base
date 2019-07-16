@@ -1,8 +1,8 @@
 /**
  * @Author: Firmiana
  * @Date: 2019-04-03 11:40:22
- * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 17:11:19
+ * @Last Modified by: huweijian
+ * @Last Modified time: 2019-04-28 17:17:46
  * @Desc: 签名加密方法
  */
 
@@ -14,7 +14,7 @@ import md5 from 'md5'
  * @param token
  * @returns {*}
  */
-export function sign (timestamp, token) {
+export function sign(timestamp, token) {
   return md5('xxx')
 }
 
@@ -23,8 +23,8 @@ export function sign (timestamp, token) {
  * @param token
  * @returns {{timestamp: number, sign}}
  */
-export function createSign (token) {
-  let timestamp = +new Date()
+export function createSign(token) {
+  const timestamp = +new Date()
   // console.log(strStartEnd(token), strStartEnd(timestamp))
   return {
     timestamp,
@@ -35,7 +35,7 @@ export function createSign (token) {
 /**
  * 生成唯一标识
  */
-export default function createUniqueString () {
+export function createUniqueString() {
   const timestamp = +new Date() + ''
   const randomNum = parseInt((1 + Math.random()) * 65536) + ''
   return (+(randomNum + timestamp)).toString(32)

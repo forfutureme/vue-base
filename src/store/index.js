@@ -12,6 +12,8 @@ import getters from './getters'
 // 引入各个模块
 import index from './modules/index'
 
+import initialize from './modules/initialize'
+
 import createLogger from 'vuex/dist/logger'
 
 // import VuexPersistence from 'vuex-persist'
@@ -27,15 +29,16 @@ const debug = ENV !== 'pro'
  * 输出 store
  */
 export default new Vuex.Store({
-  state: {
-    env: ENV
-  },
-  actions,
-  mutations,
-  getters,
-  modules: {
-    index
-  },
-  strict: debug,
-  plugins: debug ? [] : [] // createLogger()
+	state: {
+		env: ENV
+	},
+	actions,
+	mutations,
+	getters,
+	modules: {
+		index,
+		initialize
+	},
+	strict: debug,
+	plugins: debug ? [] : [] // createLogger()
 })

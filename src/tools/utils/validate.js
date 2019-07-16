@@ -1,25 +1,16 @@
 /**
  * @Author: Firmiana
  * @Date: 2019-04-03 11:17:32
- * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 17:09:38
+ * @Last Modified by: cocotao
+ * @Last Modified time: 2019-05-09 19:27:23
  * @Desc: 验证类方法
  */
-
-/**
- * 验证是否iPhone
- * @returns {boolean}
- */
-export function isIPhone () {
-  return window.navigator.appVersion.indexOf('iPhone') > -1
-}
-
 /**
  * 校验手机号 1+10位数字
  * @param val {string} 输入字符串
  * @returns {boolean}
  */
-export function checkPhone (val) {
+export function checkPhone(val) {
   return /^1\d{10}$/.test(val)
 }
 
@@ -29,7 +20,7 @@ export function checkPhone (val) {
  * @param len {number} 长度 默认值6
  * @returns {boolean}
  */
-export function checkPhoneCode (val, len = 6) {
+export function checkPhoneCode(val, len = 6) {
   val = val + ''
   return /^\d+$/.test(val) && len === val.length
 }
@@ -42,13 +33,18 @@ export function checkPhoneCode (val, len = 6) {
  * @param empty 是否可以不填，包含填空
  * @returns {*}
  */
-export function checkText ({ val, type, mode, empty = false }) {
+export function checkText({
+  val,
+  type,
+  mode,
+  empty = false
+}) {
   if (empty && /^\s+$/.test(val)) {
     return false
   }
-  let map = {
+  const map = {
     // 姓名
-    name () {
+    name() {
       // 英文
       if (mode === 'en') {
         return /^[a-zA-Z\s]+$/.test(val)
@@ -56,18 +52,18 @@ export function checkText ({ val, type, mode, empty = false }) {
       return /^[\u4e00-\u9fa5]+$/.test(val) && val.length <= 10
     },
     // 地址
-    address () {
+    address() {
       // 英文
       if (mode === 'en') {
         return /^[\w\s]+$/.test(val)
       }
       return /^[\u4e00-\u9fa5\w\s]+$/.test(val)
     },
-    common () {
+    common() {
       return /^[\u4e00-\u9fa5\w\s]+$/.test(val)
     }
   }
-  let func = map[type] || map['common']
+  const func = map[type] || map['common']
   return func()
 }
 
@@ -76,7 +72,7 @@ export function checkText ({ val, type, mode, empty = false }) {
  * @param idCard {string} 身份证号码
  * @returns {boolean}
  */
-export function checkIdCard (idCard) {
+export function checkIdCard(idCard) {
   if (idCard.length !== 18) {
     return false
   }
@@ -109,34 +105,12 @@ export function checkIdCard (idCard) {
  * @param o {object} 要判断的内容
  * @returns {boolean}
  */
-export function isEmptyObj (o) {
+export function isEmptyObj(o) {
   let r
-  for (let k in o) {
+  for (const k in o) {
     r = !!k
   }
   return !!r
-}
-
-/**
- * 获取当前运行环境
- * @returns {string}
- */
-export function judge () {
-  const ua = navigator.userAgent.toLocaleLowerCase()
-  // alert(ua.indexOf('micromessenger'))
-  // if (ua.indexOf('jiatui') > -1) {
-  //   return 'app'
-  // }
-  if (ua.indexOf('micromessenger') > -1) {
-    return 'wx'
-  }
-  return 'h5'
-  // if (ua.match(/iphone|ipad|ipod/)) {
-  //   return 'ios'
-  // }
-  // if (ua.match(/android/)) {
-  //   return 'android'
-  // }
 }
 
 /**
@@ -144,10 +118,10 @@ export function judge () {
  * @param file
  * @returns {boolean}
  */
-export function checkFile (file) {
-  let type = file.type.split('/')[1]
-  let types = ['jpg', 'png', 'jpeg']
-  let sizeMax = 5000
+export function checkFile(file) {
+  const type = file.type.split('/')[1]
+  const types = ['jpg', 'png', 'jpeg']
+  const sizeMax = 5000
   if (types.indexOf(type) < 0) {
     console.error(`文件类型错误，目前支持${types.join(',')}格式`)
     return false
@@ -164,7 +138,7 @@ export function checkFile (file) {
  * @param t 毫秒数 默认 500
  * @returns {Promise<any>}
  */
-export function wait (t = 500) {
+export function wait(t = 500) {
   return new Promise((resolve, reject) => {
     let timer = setTimeout(() => {
       timer = null
@@ -182,7 +156,7 @@ export function wait (t = 500) {
  * @param func 不存在时执行的方法
  * @returns {Promise<void>}
  */
-export async function checkNotNull (t = 100, o, key, func = () => { }) {
+export async function checkNotNull(t = 100, o, key, func = () => {}) {
   if (!o[key]) {
     func(o, key)
     await wait(t)
@@ -195,7 +169,7 @@ export async function checkNotNull (t = 100, o, key, func = () => { }) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function isvalidUsername (str) {
+export function isvalidUsername(str) {
   const validReg = /^[a-zA-Z0-9_-]{4,16}$/
   return validReg.test(str.trim())
 }
@@ -205,7 +179,7 @@ export function isvalidUsername (str) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function validateURL (textval) {
+export function validateURL(textval) {
   const urlRegex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
   return urlRegex.test(textval)
 }
@@ -215,7 +189,7 @@ export function validateURL (textval) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function validateLowerCase (str) {
+export function validateLowerCase(str) {
   const reg = /^[a-z]+$/
   return reg.test(str)
 }
@@ -225,7 +199,7 @@ export function validateLowerCase (str) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function validateUpperCase (str) {
+export function validateUpperCase(str) {
   const reg = /^[A-Z]+$/
   return reg.test(str)
 }
@@ -235,7 +209,7 @@ export function validateUpperCase (str) {
  * @param {String} str - 字符串
  * @returns {Boolean}
  */
-export function validateAlphabets (str) {
+export function validateAlphabets(str) {
   const reg = /^[A-Za-z]+$/
   return reg.test(str)
 }
@@ -245,7 +219,60 @@ export function validateAlphabets (str) {
  * @param {String} email - 邮箱
  * @returns {boolean}
  */
-export function validateEmail (email) {
+export function validateEmail(email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return re.test(email)
+}
+
+/**
+ * 判断是否为对象
+ * @export
+ * @param {*} obj
+ * @returns
+ */
+export function isObj(obj) {
+  return Object.prototype.toString.call([]).match(/\w+?(?=\])/) === 'Object'
+}
+/**
+ * 判断是否为空，空格
+ * @export
+ * @param {*} obj
+ * @returns
+ */
+export function isEmpty(str) {
+  if (!str) return false
+  if (str.split(' ').join('').length === 0) {
+    return false
+  }
+  return true
+}
+
+// 表单校正---------------------------------------
+/**
+ * 表单判断手机号真假
+ * @export
+ * @returns
+ */
+const regexpPhone = /^1[3456789]\d{9}$/ // 手机号正则
+export const phoneNumberValidator = (rule, value, callback) => {
+  if (!isEmpty(value)) {
+    return callback()
+  }
+  if (!regexpPhone.test(value)) {
+    return callback(`请输入正确格式手机号码`)
+  }
+  callback()
+}
+/**
+ * 表单输入是否为空
+ * @export
+ * @returns
+ */
+export const isempty = fieldName => {
+  return (rule, value, callback) => {
+    if (value.split(' ').join('').length === 0) {
+      return callback(new Error(`请输入${fieldName}`))
+    }
+    callback()
+  }
 }

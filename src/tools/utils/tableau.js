@@ -1,8 +1,8 @@
 /**
  * @Author: Firmiana
  * @Date: 2019-04-03 11:22:18
- * @Last Modified by: Firmiana
- * @Last Modified time: 2019-04-03 17:28:24
+ * @Last Modified by: huweijian
+ * @Last Modified time: 2019-04-27 16:57:26
  * @Desc: 图像处理相关方法
  */
 
@@ -12,7 +12,7 @@
  * @param size {number} 目标值 0/32/64/132/默认132
  * @return {string}
  */
-export function imgTozSize (str = '', size = 132) {
+export function imgTozSize(str = '', size = 132) {
   return str ? str.replace(/0$/, '132').replace(/0\.jpg(\?t=\d+)/, '132.jpg$1') : ''
 }
 
@@ -20,7 +20,7 @@ export function imgTozSize (str = '', size = 132) {
  * 获取设备物理高宽
  * @returns {{width: number, height: number}}
  */
-export function getDeviceWidthHeight () {
+export function getDeviceWidthHeight() {
   return {
     width: window.screen.width * window.devicePixelRatio,
     height: window.screen.height * window.devicePixelRatio
@@ -34,7 +34,7 @@ export function getDeviceWidthHeight () {
  * @param deviceVal
  * @returns {number}
  */
-export function calcRelativeVal (real, base, deviceVal) {
+export function calcRelativeVal(real, base, deviceVal) {
   return real / base * deviceVal
 }
 
@@ -49,7 +49,16 @@ export function calcRelativeVal (real, base, deviceVal) {
  * @param left {number} 左偏移值
  * @param top {number} 上偏移值
  */
-export function drawText ({ context, color, size, bold = false, family = 'PingFangSC-Regular', text, left, top }) {
+export function drawText({
+  context,
+  color,
+  size,
+  bold = false,
+  family = 'PingFangSC-Regular',
+  text,
+  left,
+  top
+}) {
   context.font = `${bold ? 'bold ' : ' '}${size} ${family}`
   context.fillStyle = color
   // context.textAlign = 'center'
@@ -71,11 +80,30 @@ export function drawText ({ context, color, size, bold = false, family = 'PingFa
  * @param leftFunc {function} 左偏移计算方法
  * @param topFunc {function} 上偏移计算方法
  */
-export function singleWordWrap ({ context, color, size, bold = false, family = 'PingFangSC-Regular', text, left, top, lineHeight, leftFunc, topFunc }) {
-  let arr = text.split('')
+export function singleWordWrap({
+  context,
+  color,
+  size,
+  bold = false,
+  family = 'PingFangSC-Regular',
+  text,
+  left,
+  top,
+  lineHeight,
+  leftFunc,
+  topFunc
+}) {
+  const arr = text.split('')
   for (let i = 0; i < arr.length; i++) {
     drawText({
-      context, color, size: `${leftFunc(size)}px`, bold, family, text: text[i], left: leftFunc(left), top: topFunc(top + lineHeight * size * i)
+      context,
+      color,
+      size: `${leftFunc(size)}px`,
+      bold,
+      family,
+      text: text[i],
+      left: leftFunc(left),
+      top: topFunc(top + lineHeight * size * i)
     })
   }
 }
@@ -89,7 +117,14 @@ export function singleWordWrap ({ context, color, size, bold = false, family = '
  * @param left {number} 左偏移值
  * @param top 上偏移值
  */
-export function drawSquare ({ context, color, width, height, left, top }) {
+export function drawSquare({
+  context,
+  color,
+  width,
+  height,
+  left,
+  top
+}) {
   // 绘制图形
   context.beginPath()
   // 设定图形边框的样式
@@ -111,7 +146,15 @@ export function drawSquare ({ context, color, width, height, left, top }) {
  * @param toL {number} 结束左坐标
  * @param toT {number} 结束上坐标
  */
-export function drawLine ({ context, color, width, moveL, moveT, toL, toT }) {
+export function drawLine({
+  context,
+  color,
+  width,
+  moveL,
+  moveT,
+  toL,
+  toT
+}) {
   context.beginPath()
   context.strokeStyle = color
   context.lineWidth = width
@@ -129,12 +172,18 @@ export function drawLine ({ context, color, width, moveL, moveT, toL, toT }) {
  * @param y {number} 右偏移
  * @param r {number} 圆角半径
  */
-export function circleImg ({ context, img, x, y, r }) {
+export function circleImg({
+  context,
+  img,
+  x,
+  y,
+  r
+}) {
   context.save()
   context.beginPath()
-  let d = 2 * r
-  let cx = x + r
-  let cy = y + r
+  const d = 2 * r
+  const cx = x + r
+  const cy = y + r
   context.arc(cx, cy, r, 0, 2 * Math.PI)
   context.clip()
   context.drawImage(img, x, y, d, d)
@@ -152,7 +201,15 @@ export function circleImg ({ context, img, x, y, r }) {
  * @param top {number} 右偏移
  * @param r {number} 半径
  */
-export function circArc ({ context, color = '#fff', bWidth = 2, bColor = '#000', left, top, r }) {
+export function circArc({
+  context,
+  color = '#fff',
+  bWidth = 2,
+  bColor = '#000',
+  left,
+  top,
+  r
+}) {
   context.save()
   context.beginPath()
   context.strokeStyle = bColor
@@ -169,8 +226,10 @@ export function circArc ({ context, color = '#fff', bWidth = 2, bColor = '#000',
  * @param width 实际宽
  * @returns {function(*): number}
  */
-export function getLeft (width) {
-  return (val) => { return val / 750 * width }
+export function getLeft(width) {
+  return (val) => {
+    return val / 750 * width
+  }
 }
 
 /**
@@ -178,6 +237,8 @@ export function getLeft (width) {
  * @param height 实际高
  * @returns {function(*): number}
  */
-export function getTop (height) {
-  return (val) => { return val / 1344 * height }
+export function getTop(height) {
+  return (val) => {
+    return val / 1344 * height
+  }
 }
